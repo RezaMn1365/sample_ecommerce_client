@@ -157,7 +157,6 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage>
       loading = true;
     } else {
       loading = false;
-      loading = false;
     }
   }
 
