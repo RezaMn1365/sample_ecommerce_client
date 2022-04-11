@@ -162,7 +162,7 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage>
 
   Widget shimmerEffect() {
     return Padding(
-      padding: EdgeInsets.only(top: 15),
+      padding: const EdgeInsets.only(top: 15),
       child: Shimmer.fromColors(
         baseColor: Colors.black26,
         highlightColor: Colors.black12,
