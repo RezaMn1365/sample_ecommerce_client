@@ -516,7 +516,22 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage>
 
     usedSocialMediaNames.remove(name);
 
-    setState(() {});
+    setState(() {
+      switch (name) {
+        case SocialMediaName.Whatsapp:
+          whatsappSocialmediaController.text = '';
+          break;
+        case SocialMediaName.Instagram:
+          instagramSocialmediaController.text = '';
+          break;
+        case SocialMediaName.Facebook:
+          facebookSocialmediaController.text = '';
+          break;
+        case SocialMediaName.Twitter:
+          twitterSocialmediaController.text = '';
+          break;
+      }
+    });
   }
 
   Widget _createSocialMediaSelectableItem(
