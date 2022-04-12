@@ -247,12 +247,6 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage>
                                   lable: 'Last name',
                                   xController: lastnameController,
                                   textFormFieldPaddingValue: 25),
-                              // MyTextFormField.norm(
-                              //     type: 'email',
-                              //     hint: 'Please enter your Email address',
-                              //     lable: 'Email',
-                              //     xController: emailController,
-                              //     textFormFieldPaddingValue: 25),
 
                               MySpacer.vertical(40),
                               Row(
@@ -350,25 +344,6 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage>
                                           : const Text('Update profile')),
                                 ),
                               ),
-                              // Padding(
-                              //   padding:
-                              //       const EdgeInsets.only(top: 30, left: 20, right: 20),
-                              //   child: SizedBox(
-                              //     //width: MediaQuery.of(context).size.width * 0.10,
-                              //     height: MediaQuery.of(context).size.height * 0.07,
-                              //     child: ElevatedButton(
-                              //         style: ElevatedButton.styleFrom(elevation: 25),
-                              //         onPressed: () async {
-                              //           Navigation.gotoHomePage(context,
-                              //               replace: true, name: emailController.text);
-                              //           // Navigation.goBack(context);
-                              //         },
-                              //         child: const Text('Cancel')),
-                              //   ),
-                              // ),
-
-                              // TextSpanBulider.login('Not registered yet? click  ',
-                              //     'register', 'register'),
                             ],
                           )
                         : Column(
@@ -722,7 +697,7 @@ class _PasswordUpdatePageState extends State<PasswordUpdatePage>
                   padding: EdgeInsets.only(top: 10),
                   child: Center(
                     child: Text(
-                      'Update your profile',
+                      'Update your password',
                       style: TextStyle(fontSize: 20),
                     ),
                   ),
