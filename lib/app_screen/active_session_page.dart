@@ -89,46 +89,6 @@ class _ActiveSessionPageState extends State<ActiveSessionPage> {
                 color: Colors.blue,
               ),
       ),
-
-      // StreamBuilder(
-      //   stream: loadController.stream,
-      //   builder: (context, AsyncSnapshot snapshot) {
-      // loadController.stream.listen((event) {}).onError((error) {
-      //   // loadController.stream.listen((event) {}).pause();
-      //   Future.delayed(const Duration(seconds: 5), () {
-      //     // loadController.stream.listen((event) {}).resume();
-      //     startStreamData();
-      //   });
-
-      //   // print(error);
-      // });
-
-      // loadController.stream.handleError((onError) {
-      //   onError:
-      //   () => Future.delayed(const Duration(seconds: 5), () {
-      //         startStreamData();
-      //       });
-      // });
-
-      //     if (!snapshot.hasData) {
-      //       return mainList();
-      //     } else {
-      //       switch (snapshot.connectionState) {
-      //         case ConnectionState.none:
-      //         case ConnectionState.waiting:
-      //           return mainList();
-
-      //         case ConnectionState.active:
-      //         case ConnectionState.done:
-      //           return mainList();
-
-      //         default:
-      //           return mainList();
-      //       }
-      //     }
-      //   },
-      // ),
-      // ),
     );
   }
 

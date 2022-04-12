@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:flutter_application_1/app_screen/map_google_page.dart';
 import 'package:flutter_application_1/app_screen/map_snapshot_provider.dart';
 import 'package:flutter_application_1/helpers/my_dialog.dart';
 import 'package:flutter_application_1/helpers/storage/icon_builder.dart';
@@ -9,45 +7,19 @@ import 'package:flutter_application_1/widgets/my_spacer.dart';
 import 'package:flutter_application_1/widgets/my_text_form_field.dart';
 import 'package:flutter_application_1/widgets/social_media_item.dart';
 import 'package:flutter_application_1/widgets/social_media_register_field.dart';
-// import 'package:flutter_application_1/widgets/social_media_register_field.dart';
 import 'package:flutter_application_1/widgets/text_span.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/helpers/navigation.dart' as Navigation;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter_application_1/network/server_requests.dart'
     as serverRequest;
 
 class RegisterPage extends StatefulWidget {
   RegisterPage({Key? key}) : super(key: key);
-  // List<TextEditingController> socialmediaController =
-  //     List<TextEditingController>.generate(4, (E) => TextEditingController());
+
   List<SocialMediaRegisterField> items = [];
   List<TextEditingController> socialmediaController = [];
-  // List<TextEditingController>.generate(1, (E) => TextEditingController());
-  // List<SocialMediaRegisterField> items = [];
-  // List<TextEditingController> socialmediaController = [];
-  // List<SocialMediaRegisterField> items =
-  //     List<SocialMediaRegisterField>.generate(
-  //   1,
-  //   (E) => SocialMediaRegisterField(
-  //     onAddClicked: () {},
-  //     onDeleteClicked: () {},
-  //     // socialmediaController: widget.socialmediaController[E],
-  //   ),
-  // );
-  // final List<PopupItem> popUpList = [
-  //   PopupItem(1, 'whatsapp', 'images/whatsapp.png'),
-  //   PopupItem(2, 'instagram', 'images/instagram.png'),
-  //   PopupItem(3, 'facebook', 'images/facebook.png'),
-  //   PopupItem(4, 'twitter', 'images/twitter.png')
-  // ];
-  // final List<PopupItem> popUpListDynamic = [
-  //   PopupItem(1, 'whatsapp', 'images/whatsapp.png'),
-  //   PopupItem(2, 'instagram', 'images/instagram.png'),
-  //   PopupItem(3, 'facebook', 'images/facebook.png'),
-  //   PopupItem(4, 'twitter', 'images/twitter.png')
-  // ];
+
   List<int> numberOfFieldsUpdate = [];
 
   int itemNumber = 1;
@@ -113,12 +85,6 @@ class _RegisterPageState extends State<RegisterPage> {
   bool invalidPassword2 = false;
   final _formKey = GlobalKey<FormState>();
 
-  // List<PopupItem> socialMediaIconChoiceList = [
-  //   PopupItem(1, 'whatsapp', 'images/whatsapp.png')
-  // ];
-
-  // List<PopupItem> popUpListDynamic = [];
-
   @override
   void initState() {
     var initalLocation = LocationModel(const LatLng(0.1, 0.1));
@@ -126,115 +92,11 @@ class _RegisterPageState extends State<RegisterPage> {
     var initalSocialModel = SocialMediaModel(
         whatsapp: '', facebook: '', instagram: '', twitter: '');
     socialMedia = initalSocialModel;
-    // getUserNameValue().then((value) => updateName(value));
-    // getPassValue().then((value) => updatePass(value));
-    // getEmailValue().then((value) => updateEmail(value));
-    // getNameValue().then((value) => updateName(value));
-
-    // widget.socialmediaController =
-    //     List<TextEditingController>.generate(1, (E) => TextEditingController());
-
-    // widget.items = List<SocialMediaRegisterField>.generate(
-    //   1,
-    //   (E) => SocialMediaRegisterField(
-    //     onAddClicked: () {},
-    //     onDeleteClicked: () {},
-    //     onPopUpItemSelected: () {},
-    //     socialmediaController: widget.socialmediaController[E],
-    //     list: widget.popUpList,
-    //   ),
-    // );
-    // popUpListDynamic = widget.popUpList;
-
-    // _addItem(widget.items[1]);
-    // _addNewTextField(1);
-
-    // widget.numberOfFieldsUpdate[0].addListener(() {
-    //   print('notified');
-    // });
 
     // TODO: implement initState
-    // _retriveFieldsData();
+
     super.initState();
   }
-
-  void _deleteItem(index) {
-    if (widget.itemNumber > 1) {
-      widget.itemNumber--;
-      // widget.items.removeAt(index);
-      // widget.socialmediaController.removeAt(index);
-      setState(() {});
-    } else {}
-  }
-
-  void _addItem(item) {
-    if (widget.itemNumber <= 3) {
-      widget.itemNumber++;
-    }
-
-    // if (widget.popUpListDynamic
-    //     .any((item) => widget.popUpListDynamic.contains(item))) {
-    //   print(item);
-    // } else {
-    //   print('nothing');
-    // }
-
-    // widget.popUpListDynamic.retainWhere((item) =>
-    //     !socialMediaIconChoiceList.contains(
-    //         item)); //keep all items in the list except the items in another list
-    // print(widget.popUpListDynamic);
-    // print(widget.popUpList);
-
-    // var list = widget.popUpListDynamic
-    //     .expand((i) => [i.value, i.name, i.address])
-    //     .toList();
-    // currentMedia.add('${list[1]}');
-    // currentMedia =
-    //     currentMedia.toSet().toList(); //remove duplicate items from list
-    // print(currentMedia);
-
-    setState(() {});
-  }
-
-  void popUpListEditor(choice) {
-    // socialMediaIconChoiceList.add(choice);
-    // // print(socialMediaIconChoiceList);
-    // socialMediaIconChoiceList = socialMediaIconChoiceList
-    //     .toSet()
-    //     .toList(); //remove duplicate items from list
-    // print(socialMediaIconChoiceList);
-    // socialMediaIconChoiceList.clear();
-    // socialMediaIconChoiceList
-    //     .add(choice); // make an updated list from popUp items
-  }
-
-  // String _currentMediaSelector() {
-  //   var _list = socialMediaIconChoiceList
-  //       .expand((i) => [i.value, i.name, i.address])
-  //       .toList();
-  //   if (_list.contains('whatsapp')) {
-  //     currentMediaSelected = 'whatsapp';
-  //     // print(_list[0]);
-  //     // print(_list[1]);
-  //     // print(_list[2]);
-  //     // print(currentMediaSelected);
-  //     return 'whatsapp';
-  //   } else if (_list.contains('instagram')) {
-  //     currentMediaSelected = 'instagram';
-  //     // print(currentMediaSelected);
-  //     return 'instagram';
-  //   } else if (_list.contains('facebook')) {
-  //     currentMediaSelected = 'facebook';
-  //     // print(currentMediaSelected);
-  //     return 'facebook';
-  //   } else if (_list.contains('twitter')) {
-  //     currentMediaSelected = 'twitter';
-  //     // print(currentMediaSelected);
-  //     return 'twitter';
-  //   } else {
-  //     return 'whatsapp';
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -246,8 +108,6 @@ class _RegisterPageState extends State<RegisterPage> {
           child: Padding(
             padding: const EdgeInsets.all(25),
             child: Column(
-              // crossAxisAlignment: CrossAxisAlignment.center,
-              //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 MainLogoBuilder.show('images/C1.png'),
@@ -395,35 +255,6 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
   }
-
-  // void _retriveFieldsData() {
-  //   widget.firstnameController.text = firstname;
-  //   widget.passController.text = password;
-  //   widget.lastnameController.text = lastname;
-  //   widget.emailController.text = email;
-  //   widget.repeatpassController.text = password2;
-
-  //   widget.phoneController.text = phone;
-  //   widget.nationalidontroller.text = national_id;
-  //   widget.countryController.text = country;
-  //   widget.provinceController.text = province;
-  //   widget.cityController.text = city;
-  //   widget.addressController.text = address;
-  //   widget.zipController.text = zip;
-
-  // // if (social_media!.whatsapp != null) {
-  // widget.whatsappSocialmediaController.text = social_media!.whatsapp!;
-  // // }
-  // // if (social_media!.instagram != null) {
-  // widget.instagramSocialmediaController.text = social_media!.instagram!;
-  // // }
-  // // if (social_media!.facebook != null) {
-  // widget.facebookSocialmediaController.text = social_media!.facebook!;
-  // // }
-  // // if (social_media!.twitter != null) {
-  // widget.twitterSocialmediaController.text = social_media!.twitter!;
-  // }
-  // }
 
   bool _validate() {
     firstname = widget.firstnameController.text;
@@ -630,16 +461,24 @@ class _RegisterPageState extends State<RegisterPage> {
     }
     return GestureDetector(
       onTap: onClick,
-      child: Row(
-        children: [
-          Image.asset(
-            logo,
-            width: 20,
-            height: 20,
-            fit: BoxFit.fill,
-          ),
-          Text(title),
-        ],
+      child: Card(
+        margin: const EdgeInsets.only(top: 15),
+        elevation: 5,
+        color: Colors.grey[200],
+        child: Row(
+          children: [
+            Image.asset(
+              logo,
+              width: 40,
+              height: 40,
+              fit: BoxFit.fill,
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            Text(title),
+          ],
+        ),
       ),
     );
   }

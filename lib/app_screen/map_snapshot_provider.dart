@@ -41,23 +41,8 @@ class _MapSnapShotGeneratorState extends State<MapSnapShotProvider> {
 
   @override
   void initState() {
-    // location = widget.initalLocation!.latLong!;
-    // var locationMap = await Storage().getLocation();
-    // var locationList = locationMap.latLong;
-    // location[0] = locationList![0];
-    // location[1] = locationList![1];
-    // _image.image
-    //     .resolve(ImageConfiguration())
-    //     .addListener(ImageStreamListener((image, synchronousCall) {
-    //   if (mounted) {
-    //     setState(() {
-    //       _loading = false;
-    //     });
-    //   }
-    // }));
-
     // TODO: implement initState
-    // renderUrl = _buildUrl();
+
     super.initState();
   }
 
@@ -79,21 +64,6 @@ class _MapSnapShotGeneratorState extends State<MapSnapShotProvider> {
     return baseUri.toString();
   }
 
-  // Widget _buildWidget() {
-  //   Image image = Image.network('test');
-  //   final ImageStream stream = image.image.resolve(ImageConfiguration.empty);
-  //   stream.addListener(ImageStreamListener((image, synchronousCall) {
-  //     onError:
-  //     (dynamic exception, StackTrace stackTrace) {
-  //       print('enter onError start');
-  //       print(exception);
-  //       print(stackTrace);
-  //       print('enter onError end');
-  //     };
-  //   }));
-  //   return image;
-  // }
-
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -112,33 +82,12 @@ class _MapSnapShotGeneratorState extends State<MapSnapShotProvider> {
             },
           ),
         );
-        // Navigation.gotoMapAddressPage(context);
-        // widget.refreshCallBack(true);
       },
       child: Stack(
         alignment: Alignment.center,
         fit: StackFit.expand,
         children: [
-          // _buildWidget(),
-          // _loading ? Text('Loading...') : _image,
-
-          // CachedNetworkImage(
-          //   errorWidget: (context, url, error) => Text('data'),
-          //   placeholder: (context, url) => const CircularProgressIndicator(),
-          //   imageUrl: 'https://picsum.photos/250?image=9',
-          // ),
-
-          // Container(
-          //     decoration: BoxDecoration(
-          //   image: DecorationImage(
-          //     fit: BoxFit.cover,
-          //     image: AssetImage('images/global_map.png'),
-          //   ),
-          // )),
-
           Image.network(
-              // widget.location.latitude != 0 && widget.location.longitude != 0
-              // ?
               widget.location.latitude != 0.1 &&
                       widget.location.longitude != 0.1
                   ? _buildUrl()
@@ -166,62 +115,6 @@ class _MapSnapShotGeneratorState extends State<MapSnapShotProvider> {
                 }
               }),
 
-          // FadeInImage(
-          //     repeat: ImageRepeat.repeat,
-          //     // bundle:AssetImage('images/global_map.png' ),
-          //     fit: BoxFit.cover,
-          //     // placeholderErrorBuilder: (context, error, stackTrace) {
-          //     //   return Image.asset('images/global_map.png');
-          //     // },
-          //     imageErrorBuilder: (context, error, stackTrace) {
-          //       // print('Error');
-          //       return const LinearProgressIndicator();
-          //     },
-          //     placeholderErrorBuilder: (context, error, stackTrace) =>
-          //         const LinearProgressIndicator(),
-          //     placeholder: const AssetImage('images/global_map.png'),
-          //     image: location[0] != 0 && location[0] != 0
-          //         ? NetworkImage(_buildUrl())
-          //         : const AssetImage('images/global_map.png') as ImageProvider
-          //     //  location[0] != 0 && location[0] != 0
-          //     // ? 'https://picsum.photos/250?image=9' // _buildUrl()
-          //     // : 'images/global_map.png'//'images/global_map.png',
-          //     ),
-
-          //   // child: Image.network(
-          //   //   _buildUrl(),
-          //   //   errorBuilder: (context, error, stackTrace) {
-          //   //     return Image.asset('images/global_map.png');
-          //   //   },
-          //   // ),
-
-          //   decoration: BoxDecoration(
-          //     border: Border.all(style: BorderStyle.solid, color: Colors.white),
-          //     //     // image:
-          //     //     // location[0] != 0 && location[0] != 0
-          //     //     //     ? DecorationImage(
-          //     //     //         fit: BoxFit.cover,
-          //     //     //         image: Image.network(
-          //     //     //           _buildUrl(),
-          //     //     //           errorBuilder: (context, error, stackTrace) {
-          //     //     //             return Image.asset('images/global_map.png');
-          //     //     //           },
-          //     //     //         ) as ImageProvider)
-          //     image: location[0] != 0 && location[1] != 0
-          //         ? DecorationImage(
-          //             image: NetworkImage(
-          //               _buildUrl(),
-          //             ),
-          //             onError: (exception, stackTrace) {
-          //               print('Error: $exception');
-          //             },
-          //           )
-          //         : const DecorationImage(
-          //             fit: BoxFit.cover,
-          //             image: AssetImage('images/global_map.png'),
-          //           ),
-          //   ),
-          // ),
           Positioned(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -246,63 +139,5 @@ class _MapSnapShotGeneratorState extends State<MapSnapShotProvider> {
       ),
       // ),
     );
-
-    // InkWell(
-    //   enableFeedback: true,
-    //   splashColor: Colors.black,
-    //   onTap: () {
-    //     // Navigator.push(
-    //     //   context,
-    //     //   MaterialPageRoute(
-    //     //     builder: (context) {
-    //     //       return MapAddress();
-    //     //     },
-    //     //   ),
-    //     // ).then(
-    //     //   (value) => setState(() {}),
-    //     // );
-    //     // Navigation.gotoMapAddressPage(context);
-    //     widget.refreshCallBack(true);
-    //   },
-    //   child: Stack(
-    //     children: [
-    //       Container(
-    //         decoration: BoxDecoration(
-    //           border: Border.all(style: BorderStyle.solid, color: Colors.white),
-    //           image: widget.location[0] != 0 && widget.location[0] != 0
-    //               ? DecorationImage(
-    //                   fit: BoxFit.cover, image: NetworkImage(_buildUrl()))
-    //               : const DecorationImage(
-    //                   fit: BoxFit.cover,
-    //                   image: AssetImage('images/global_map.png')),
-    //         ),
-    //       ),
-
-    //       Positioned(
-    //         top: 70,
-    //         right: 100,
-    //         child: Column(
-    //           children: [
-    //             Image.asset(
-    //               'images/pin.png',
-    //               alignment: Alignment.center,
-    //               width: 50,
-    //               height: 50,
-    //             ),
-    //             const Text(
-    //               'Tap to choose your location!',
-    //               style: TextStyle(fontWeight: FontWeight.bold),
-    //             ),
-    //           ],
-    //         ),
-    //       ),
-
-    //       // ),
-    //     ],
-    //   ),
-    // );
-
-    //  Image.network(_buildUrl());
-    // 'https://maps.googleapis.com/maps/api/staticmap?center=Iran,%20Tehran&zoom=11&size=600x400&key=AIzaSyC-Kt6Sijc8w7Oeg5ZRAMuxQrGoDr-a1ZI');
   }
 }
