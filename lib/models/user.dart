@@ -104,6 +104,36 @@ class Profile {
         'location': location,
         'social_media': social_media,
       };
+
+  static Profile? fromJson(dynamic json) {
+    try {
+      var first_name = json['first_name'];
+      var last_name = json['last_name'];
+      var national_id = json['national_id'];
+      var country = json['country'];
+      var province = json['province'];
+      var city = json['city'];
+      var address = json['address'];
+      var zip = json['zip'];
+      var location = LocationModel.fromJson(json['location']['coordinates']);
+      var social_media = SocialMediaModel.fromJson(json['social_media']);
+
+      if (first_name != null && last_name != null) {
+        return Profile(
+            first_name: first_name,
+            last_name: last_name,
+            address: address,
+            city: city,
+            country: country,
+            location: location,
+            national_id: national_id,
+            province: province,
+            social_media: social_media,
+            zip: zip);
+      }
+    } catch (e) {}
+    return null;
+  }
 }
 
 class SocialMediaModel {
@@ -114,10 +144,6 @@ class SocialMediaModel {
 
   SocialMediaModel(
       {this.whatsapp, this.instagram, this.facebook, this.twitter});
-  // : facebook = '',
-  //   instagram = '',
-  //   twitter = '',
-  //   whatsapp = '';
 
   Map toJson() => {
         "USER_WHATSAPP": whatsapp,
@@ -125,6 +151,27 @@ class SocialMediaModel {
         "USER_FACEBOOK": facebook,
         "USER_TWITTER": twitter,
       };
+
+  static SocialMediaModel? fromJson(dynamic json) {
+    try {
+      var USER_WHATSAPP = json['USER_WHATSAPP'];
+      var USER_INSTAGRAM = json['USER_INSTAGRAM'];
+      var USER_FACEBOOK = json['USER_FACEBOOK'];
+      var USER_TWITTER = json['USER_TWITTER'];
+
+      if (USER_WHATSAPP != null &&
+          USER_INSTAGRAM != null &&
+          USER_TWITTER != null &&
+          USER_FACEBOOK != null) {
+        return SocialMediaModel(
+            whatsapp: USER_WHATSAPP,
+            instagram: USER_INSTAGRAM,
+            facebook: USER_FACEBOOK,
+            twitter: USER_TWITTER);
+      }
+    } catch (e) {}
+    return null;
+  }
 }
 
 class LocationModel {
@@ -138,6 +185,18 @@ class LocationModel {
   Map toJson() => {
         "coordinates": [location.latitude, location.longitude]
       };
+
+  static LocationModel? fromJson(dynamic json) {
+    try {
+      var latitude = json[0];
+      var longitude = json[1];
+
+      if (latitude != null && longitude != null) {
+        return LocationModel(LatLng(latitude, longitude));
+      }
+    } catch (e) {}
+    return null;
+  }
 }
 
 class Authenticate {
@@ -163,8 +222,8 @@ class Authenticate {
 class RefreshTokenModel {
   String? access_token = '';
   String? refresh_token = '';
-  String client_sign = '';
-  String client_info = '';
+  String? client_sign = '';
+  String? client_info = '';
 
   RefreshTokenModel(
       {required this.access_token,
@@ -285,4 +344,41 @@ class TerminateActiveSession {
   Map toJson() => {
         "session_id": sessionId,
       };
+}
+
+class UserProfile {
+  final String username;
+  final String email;
+  final bool? verified;
+  final Profile? profile;
+
+  UserProfile({
+    required this.username,
+    required this.verified,
+    required this.email,
+    required this.profile,
+  });
+
+  static UserProfile? fromJson(dynamic json) {
+    try {
+      var username = json['username'];
+      var email = json['email'];
+      var profile = Profile.fromJson(json['profile']);
+      var verified = json['verified'] ?? true;
+
+      if (username != null &&
+          email != null &&
+          profile != null &&
+          verified != null) {
+        var newUserProfile = UserProfile(
+            username: username,
+            email: email,
+            profile: profile,
+            verified: verified);
+        // print(newUserProfile);
+        return newUserProfile;
+      }
+    } catch (e) {}
+    return null;
+  }
 }

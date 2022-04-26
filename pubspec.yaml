@@ -28,6 +28,8 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  dio_logging_interceptor: ^1.0.1
+  dio: ^4.0.6
   device_info_plus: ^3.2.2
   shimmer: ^2.0.0
   pull_to_refresh: ^2.0.0

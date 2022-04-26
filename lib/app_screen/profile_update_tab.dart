@@ -5,6 +5,7 @@ import 'package:flutter_application_1/app_screen/register_page.dart';
 import 'package:flutter_application_1/helpers/my_dialog.dart';
 import 'package:flutter_application_1/helpers/storage/icon_builder.dart';
 import 'package:flutter_application_1/models/user.dart';
+import 'package:flutter_application_1/network/server_request_new.dart';
 import 'package:flutter_application_1/widgets/my_spacer.dart';
 import 'package:flutter_application_1/widgets/my_text_form_field.dart';
 import 'package:flutter_application_1/network/server_requests.dart'
@@ -87,29 +88,72 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage>
   }
 
   Future<void> fetchProfileData() async {
-    var userMap = await serverRequest.getProfileAPI(context);
-    if (userMap['success'] == true) {
-      firstnameController.text = userMap['payload']!['profile']!['first_name'];
-      lastnameController.text = userMap['payload']!['profile']!['last_name'];
-      // emailController.text = userMap['payload']!['email'];
-      addressController.text = userMap['payload']['profile']['address'];
-      cityController.text = userMap['payload']['profile']['city'];
-      countryController.text = userMap['payload']['profile']['country'];
-      nationalidontroller.text = userMap['payload']['profile']['national_id'];
-      provinceController.text = userMap['payload']['profile']['province'];
-      zipController.text = userMap['payload']['profile']['zip'];
-      location = LocationModel(
-        LatLng(userMap['payload']['profile']['location']['coordinates'][0],
-            userMap['payload']['profile']['location']['coordinates'][1]),
-      );
-      whatsappSocialmediaController.text =
-          userMap['payload']['profile']['social_media']['USER_WHATSAPP'];
-      instagramSocialmediaController.text =
-          userMap['payload']['profile']['social_media']['USER_INSTAGRAM'];
+    var userMap = await getProfile();
+
+    if (userMap.success) {
+      firstnameController.text = userMap.data!.profile!.first_name;
+      lastnameController.text = userMap.data!.profile!.last_name;
+      addressController.text = userMap.data!.profile!.address!;
+      cityController.text = userMap.data!.profile!.city!;
+      countryController.text = userMap.data!.profile!.country!;
+      nationalidontroller.text = userMap.data!.profile!.national_id!;
+      provinceController.text = userMap.data!.profile!.province!;
+      zipController.text = userMap.data!.profile!.zip!;
+      location = userMap.data!.profile!.location;
+
       facebookSocialmediaController.text =
-          userMap['payload']['profile']['social_media']['USER_FACEBOOK'];
+          userMap.data!.profile!.social_media!.facebook!;
       twitterSocialmediaController.text =
-          userMap['payload']['profile']['social_media']['USER_TWITTER'];
+          userMap.data!.profile!.social_media!.twitter!;
+      instagramSocialmediaController.text =
+          userMap.data!.profile!.social_media!.instagram!;
+      whatsappSocialmediaController.text =
+          userMap.data!.profile!.social_media!.whatsapp!;
+
+      // firstnameController.text = userMap['payload']!['profile']!['first_name'];
+      // lastnameController.text = userMap['payload']!['profile']!['last_name'];
+      // addressController.text = userMap['payload']['profile']['address'];
+      // cityController.text = userMap['payload']['profile']['city'];
+      // countryController.text = userMap['payload']['profile']['country'];
+      // nationalidontroller.text = userMap['payload']['profile']['national_id'];
+      // provinceController.text = userMap['payload']['profile']['province'];
+      // zipController.text = userMap['payload']['profile']['zip'];
+      // location = LocationModel(
+      //   LatLng(userMap['payload']['profile']['location']['coordinates'][0],
+      //       userMap['payload']['profile']['location']['coordinates'][1]),
+      // );
+      // whatsappSocialmediaController.text =
+      //     userMap['payload']['profile']['social_media']['USER_WHATSAPP'];
+      // instagramSocialmediaController.text =
+      //     userMap['payload']['profile']['social_media']['USER_INSTAGRAM'];
+      // facebookSocialmediaController.text =
+      //     userMap['payload']['profile']['social_media']['USER_FACEBOOK'];
+      // twitterSocialmediaController.text =
+      //     userMap['payload']['profile']['social_media']['USER_TWITTER'];
+
+      // var userMap = await serverRequest.getProfileAPI(context);
+      // if (userMap['success'] == true) {
+      //   firstnameController.text = userMap['payload']!['profile']!['first_name'];
+      //   lastnameController.text = userMap['payload']!['profile']!['last_name'];
+      //   // emailController.text = userMap['payload']!['email'];
+      //   addressController.text = userMap['payload']['profile']['address'];
+      //   cityController.text = userMap['payload']['profile']['city'];
+      //   countryController.text = userMap['payload']['profile']['country'];
+      //   nationalidontroller.text = userMap['payload']['profile']['national_id'];
+      //   provinceController.text = userMap['payload']['profile']['province'];
+      //   zipController.text = userMap['payload']['profile']['zip'];
+      //   location = LocationModel(
+      //     LatLng(userMap['payload']['profile']['location']['coordinates'][0],
+      //         userMap['payload']['profile']['location']['coordinates'][1]),
+      //   );
+      //   whatsappSocialmediaController.text =
+      //       userMap['payload']['profile']['social_media']['USER_WHATSAPP'];
+      //   instagramSocialmediaController.text =
+      //       userMap['payload']['profile']['social_media']['USER_INSTAGRAM'];
+      //   facebookSocialmediaController.text =
+      //       userMap['payload']['profile']['social_media']['USER_FACEBOOK'];
+      //   twitterSocialmediaController.text =
+      //       userMap['payload']['profile']['social_media']['USER_TWITTER'];
 
       loading = true;
     } else {

@@ -392,6 +392,11 @@ Future<Map<String, dynamic>> getProfileAPI(BuildContext context) async {
     if (response.statusCode == 400) {
       // print('400');
       return jsonDecode(response.body);
+    }
+    if (response.statusCode == 401) {
+      print('401');
+
+      return jsonDecode(response.body);
     } else {
       return jsonDecode(response.body);
     }

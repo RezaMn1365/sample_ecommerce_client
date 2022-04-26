@@ -120,6 +120,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.1"
+  dio:
+    dependency: "direct main"
+    description:
+      name: dio
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.0.6"
+  dio_logging_interceptor:
+    dependency: "direct main"
+    description:
+      name: dio_logging_interceptor
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
   email_validator:
     dependency: "direct main"
     description:
