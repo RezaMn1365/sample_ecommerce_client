@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/helpers/my_dialog.dart';
 import 'package:flutter_application_1/helpers/storage/icon_builder.dart';
+import 'package:flutter_application_1/network/server_request_new.dart';
 import 'package:flutter_application_1/widgets/my_text_form_field.dart';
 import 'package:flutter_application_1/network/server_requests.dart'
     as serverRequest;
@@ -34,7 +35,7 @@ class _PasswordUpdatePageState extends State<PasswordUpdatePage>
   bool invalidPass = false;
   bool invalidPass2 = false;
   bool invalidEquality = false;
-  bool passUpdating = false;
+  bool passUpdatingIndicator = false;
   bool passUpdateResponse = false;
   final _formKey = GlobalKey<FormState>();
 
@@ -128,13 +129,13 @@ class _PasswordUpdatePageState extends State<PasswordUpdatePage>
                         ),
                         onPressed: () async {
                           if (_formKey.currentState!.validate() &&
-                              passUpdating != true) {
-                            passUpdating = true;
-                            passUpdating = await _performPasswordUpdate();
+                              passUpdatingIndicator != true) {
+                            passUpdatingIndicator = true;
+                            passUpdateResponse = await _performPasswordUpdate();
                           }
                           setState(() {});
                         },
-                        child: passUpdating
+                        child: passUpdatingIndicator
                             ? const CircularProgressIndicator(
                                 color: Colors.white,
                               )
@@ -170,23 +171,44 @@ class _PasswordUpdatePageState extends State<PasswordUpdatePage>
   Future<bool> _performPasswordUpdate() async {
     if (!_myValidate()) {
       MyDialog.show(context, 'Password Reset Failed', 'Please fill all fields');
+      passUpdatingIndicator = false;
       return false;
     } else {
-      var passwordUpdateResponse = await serverRequest.updatePasswordAPI(
-          context,
-          oldPassController.text,
-          passController.text,
-          repeatpassController.text);
-      if (passwordUpdateResponse['success'] == true) {
-        await MyDialog.showWithDelay(context, 'Message',
-            '${passwordUpdateResponse['payload']['message']}');
-        passUpdating = false;
+      var passwordUpdateResponse = await updatePassword(oldPassController.text,
+          passController.text, repeatpassController.text);
+      if (passwordUpdateResponse.success) {
+        await MyDialog.showWithDelay(
+            context, 'Message', '${passwordUpdateResponse.payload['message']}');
+        passUpdatingIndicator = false;
         return true;
       } else {
-        await MyDialog.showWithDelay(context, 'Message', 'Unauthorized');
-        passUpdating = false;
+        await MyDialog.showWithDelay(context, 'Message', 'Unauthorized!');
+        passUpdatingIndicator = false;
         return false;
       }
     }
   }
+
+  // Future<bool> _performPasswordUpdate() async {
+  //   if (!_myValidate()) {
+  //     MyDialog.show(context, 'Password Reset Failed', 'Please fill all fields');
+  //     return false;
+  //   } else {
+  //     var passwordUpdateResponse = await serverRequest.updatePasswordAPI(
+  //         context,
+  //         oldPassController.text,
+  //         passController.text,
+  //         repeatpassController.text);
+  //     if (passwordUpdateResponse['success'] == true) {
+  //       await MyDialog.showWithDelay(context, 'Message',
+  //           '${passwordUpdateResponse['payload']['message']}');
+  //       passUpdating = false;
+  //       return true;
+  //     } else {
+  //       await MyDialog.showWithDelay(context, 'Message', 'Unauthorized');
+  //       passUpdating = false;
+  //       return false;
+  //     }
+  //   }
+  // }
 }

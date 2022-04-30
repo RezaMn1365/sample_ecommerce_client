@@ -1,8 +1,8 @@
+import 'package:flutter_application_1/helpers/my_dialog.dart';
 import 'package:flutter_application_1/helpers/navigation.dart' as Navigation;
 import 'package:flutter_application_1/helpers/storage/icon_builder.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/network/server_requests.dart'
-    as serverRequest;
+import 'package:flutter_application_1/network/server_request_new.dart';
 
 class HomePage extends StatefulWidget {
   String userName = '';
@@ -169,8 +169,13 @@ class _HomePageState extends State<HomePage> {
             TextButton(
               child: const Text('Approve'),
               onPressed: () async {
-                await serverRequest.performLogout();
-                Navigation.gotoLoginPage(context, replace: true);
+                var _response = await logout();
+                if (_response.success) {
+                  Navigation.gotoLoginPage(context, replace: true);
+                } else {
+                  await MyDialog.showWithDelay(
+                      context, 'Message', 'Unauthorized!');
+                }
                 // Navigator.of(context).pop();
               },
             ),

@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/helpers/my_dialog.dart';
+import 'package:flutter_application_1/network/server_request_new.dart';
 import 'package:flutter_application_1/network/server_requests.dart'
     as serverRequest;
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -18,10 +20,10 @@ class ActiveSessionPage extends StatefulWidget {
 
 class _ActiveSessionPageState extends State<ActiveSessionPage> {
   // Dummy Product Data Here
-  List sessionList = [];
+  List? sessionList = [];
   bool terminat = false;
   bool loading = false;
-  RefreshController _refreshController =
+  final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
   void _onRefresh() async {
@@ -34,7 +36,7 @@ class _ActiveSessionPageState extends State<ActiveSessionPage> {
 
   void _onLoading() async {
     // monitor network fetch
-    await Future.delayed(Duration(milliseconds: 1000));
+    await Future.delayed(const Duration(milliseconds: 1000));
     // if failed,use loadFailed(),if no data return,use LoadNodata()
 
     // if (mounted)
@@ -46,9 +48,9 @@ class _ActiveSessionPageState extends State<ActiveSessionPage> {
   Future<void> startStreamData() async {
     print('start');
 
-    var _response = await serverRequest.getActiveSessionAPI(context);
-    if (_response['success'] == true) {
-      List activeSessionList = _response['payload']['list'];
+    var _response = await getActiveSession();
+    if (_response.success) {
+      List? activeSessionList = _response.data!.list;
       sessionList = activeSessionList;
       loading = true;
       setState(() {});
@@ -59,6 +61,20 @@ class _ActiveSessionPageState extends State<ActiveSessionPage> {
       // sessionList = [];
       // setState(() {});
     }
+
+    // var _response = await serverRequest.getActiveSessionAPI(context);
+    // if (_response['success'] == true) {
+    //   List activeSessionList = _response['payload']['list'];
+    //   sessionList = activeSessionList;
+    //   loading = true;
+    //   setState(() {});
+    //   // loadController.sink.add(activeSessionList);
+    //   // loadController.close();
+    // } else {
+    //   loading = false;
+    //   // sessionList = [];
+    //   // setState(() {});
+    // }
   }
 
   @override
@@ -73,7 +89,7 @@ class _ActiveSessionPageState extends State<ActiveSessionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Active Session Managment'),
+        title: const Text('Active Session Managment'),
         // backgroundColor: Colors.red,
       ),
       body: SmartRefresher(
@@ -94,7 +110,7 @@ class _ActiveSessionPageState extends State<ActiveSessionPage> {
 
   Widget mainList() {
     return ListView.builder(
-      itemCount: sessionList.length,
+      itemCount: sessionList!.length,
       itemBuilder: (BuildContext ctx, index) {
         // Display the list item
         return Dismissible(
@@ -103,11 +119,11 @@ class _ActiveSessionPageState extends State<ActiveSessionPage> {
             direction: DismissDirection.endToStart,
             // Remove this session from the list
             onDismissed: (_) async {
-              var _id = sessionList[index]['session_id'].toString();
-              print(sessionList[index]['session_id'].toString());
+              var _id = sessionList![index]['session_id'].toString();
+              print(sessionList![index]['session_id'].toString());
               await _deletSessionApproveCancelDialog(index);
-              if (terminat == true) {
-                await serverRequest.terminateActiveSessionAPI(context, _id);
+              if (terminat) {
+                _terminatRequest(_id);
               }
 
               setState(() {
@@ -128,11 +144,11 @@ class _ActiveSessionPageState extends State<ActiveSessionPage> {
                       : const Icon(Icons.error),
                 ),
                 subtitle: loading
-                    ? Text('session_id : ${sessionList[index]["session_id"]}')
+                    ? Text('session_id : ${sessionList![index]["session_id"]}')
                     : null,
                 title: loading
                     ? Text(
-                        "info: ${sessionList[index]["client"]['info'].toString()}")
+                        "info: ${sessionList![index]["client"]['info'].toString()}")
                     : const Card(
                         // margin: EdgeInsets.all(35),
                         // shape: const Border(left: BorderSide(color: Colors.grey, width: 8)),
@@ -144,12 +160,12 @@ class _ActiveSessionPageState extends State<ActiveSessionPage> {
                 trailing: loading
                     ? IconButton(
                         onPressed: () async {
-                          var _id = sessionList[index]['session_id'].toString();
-                          print(sessionList[index]['session_id'].toString());
+                          var _id =
+                              sessionList![index]['session_id'].toString();
+                          print(sessionList![index]['session_id'].toString());
                           await _deletSessionApproveCancelDialog(index);
-                          if (terminat == true) {
-                            await serverRequest.terminateActiveSessionAPI(
-                                context, _id);
+                          if (terminat) {
+                            _terminatRequest(_id);
                           }
 
                           setState(() {
@@ -164,6 +180,18 @@ class _ActiveSessionPageState extends State<ActiveSessionPage> {
       },
       // ),
     );
+  }
+
+  Future<bool> _terminatRequest(String _id) async {
+    var _response = await terminateActiveSession(_id);
+    if (_response.success) {
+      await MyDialog.showWithDelay(
+          context, 'Message', 'Session terminated successfully.');
+      return true;
+    } else {
+      await MyDialog.showWithDelay(context, 'Alert', 'Session not terminated.');
+      return false;
+    }
   }
 
   Future<void> _deletSessionApproveCancelDialog(var index) async {
@@ -185,7 +213,7 @@ class _ActiveSessionPageState extends State<ActiveSessionPage> {
             TextButton(
               child: const Text('Approve'),
               onPressed: () {
-                sessionList.removeAt(index);
+                sessionList!.removeAt(index);
                 terminat = true;
                 Navigator.of(context).pop(context); //close dialog
               },

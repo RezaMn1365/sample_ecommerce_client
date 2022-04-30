@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/network/server_request_new.dart';
 import 'package:flutter_application_1/network/server_requests.dart'
     as serverRequest;
 // import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -192,25 +193,41 @@ class _LoginHistoryPageState extends State<LoginHistoryPage> {
   }
 
   Future<List> fetchDataList() async {
-    var _rawData = await serverRequest.getLoginHistoryAPI(
-        page, size, requestCountFromServer);
-    if (_rawData['success'] == true) {
+    var _response = await getLoginHistory(page, size, requestCountFromServer);
+    if (_response.success) {
       serverResponseValidate = true;
       if (requestCountFromServer == true) {
-        sizeFromServer = _rawData['payload']['pagination']['total_items'];
+        sizeFromServer = _response.data!.pagination!['total_items'];
         // print(int.parse(_rawData['payload']['pagination']['total_items']));
       }
       if (page <= 1) {
-        lst = (_rawData['payload']['list']);
+        lst = (_response.data!.list)!;
       } else {
-        lst.addAll(_rawData['payload']['list']);
-        // lst = lst.toSet().toList(); //remove duplicate items from list
+        lst.addAll(_response.data!.list!.toList());
       }
-
-      // print(lst.length);
-      // print(lst);
-
     }
     return lst;
   }
+
+  //   var _rawData = await serverRequest.getLoginHistoryAPI(
+  //       page, size, requestCountFromServer);
+  //   if (_rawData['success'] == true) {
+  //     serverResponseValidate = true;
+  //     if (requestCountFromServer == true) {
+  //       sizeFromServer = _rawData['payload']['pagination']['total_items'];
+  //       // print(int.parse(_rawData['payload']['pagination']['total_items']));
+  //     }
+  //     if (page <= 1) {
+  //       lst = (_rawData['payload']['list']);
+  //     } else {
+  //       lst.addAll(_rawData['payload']['list']);
+  //       // lst = lst.toSet().toList(); //remove duplicate items from list
+  //     }
+
+  //     // print(lst.length);
+  //     // print(lst);
+
+  //   }
+  //   return lst;
+  // }
 }

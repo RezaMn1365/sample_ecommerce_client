@@ -382,3 +382,67 @@ class UserProfile {
     return null;
   }
 }
+
+class ActiveSessionModel {
+  final List? list;
+
+  // final String session_id;
+  // final String created_at;
+  // final Map? client;
+
+  ActiveSessionModel({
+    required this.list,
+    // required this.session_id,
+    // required this.created_at,
+    // required this.client,
+  });
+
+  static ActiveSessionModel? fromJson(dynamic json) {
+    try {
+      var list = json['list'];
+      // var session_id = json['session_id'];
+      // var created_at = json['created_at'];
+      // var client = json['client'];
+
+      if (list != null
+          // session_id != null &&
+          //  created_at != null &&
+          //  client != null
+          ) {
+        var activeSessionModel = ActiveSessionModel(list: list
+            // session_id: session_id,
+            // client: client,
+            // created_at: created_at,
+            );
+        // print(newUserProfile);
+        return activeSessionModel;
+      }
+    } catch (e) {}
+    return null;
+  }
+}
+
+class LoginHistoryModel {
+  final List? list;
+  final Map? pagination;
+
+  LoginHistoryModel({
+    required this.list,
+    required this.pagination,
+  });
+
+  static LoginHistoryModel? fromJson(dynamic json) {
+    try {
+      var list = json['list'];
+      var pagination = json['pagination'];
+
+      if (list != null) {
+        var loginHistoryModel =
+            LoginHistoryModel(list: list, pagination: pagination);
+
+        return loginHistoryModel;
+      }
+    } catch (e) {}
+    return null;
+  }
+}

@@ -596,12 +596,11 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage>
 
       print(jsonEncode(finalSocialModel));
 
-      var profileUpdateResponse =
-          await serverRequest.updateProfileAPI(context, profile);
-      if (profileUpdateResponse['success'] == true) {
+      var profileUpdateResponse = await updateProfile(profile);
+      if (profileUpdateResponse.success) {
         // Navigator.of(context).pop(context);
-        await MyDialog.showWithDelay(context, 'Message',
-            '${profileUpdateResponse['payload']['message']}');
+        await MyDialog.showWithDelay(
+            context, 'Message', '${profileUpdateResponse.payload['message']}');
         updating = false;
         return true;
       } else {
@@ -609,6 +608,20 @@ class _ProfileUpdatePageState extends State<ProfileUpdatePage>
         updating = false;
         return false;
       }
+
+      // var profileUpdateResponse =
+      //     await serverRequest.updateProfileAPI(context, profile);
+      // if (profileUpdateResponse['success'] == true) {
+      //   // Navigator.of(context).pop(context);
+      //   await MyDialog.showWithDelay(context, 'Message',
+      //       '${profileUpdateResponse['payload']['message']}');
+      //   updating = false;
+      //   return true;
+      // } else {
+      //   await MyDialog.showWithDelay(context, 'Message', 'Unauthorized');
+      //   updating = false;
+      //   return false;
+      // }
     }
   }
 }
