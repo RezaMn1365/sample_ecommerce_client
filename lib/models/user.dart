@@ -47,13 +47,15 @@ class User {
   String email = ''; //[REQUIRED]
   String? phone = '';
   Profile? profile;
+  String? message;
 
   User(
       {required this.password,
       required this.password2,
       required this.email,
       required this.profile,
-      this.phone});
+      this.phone,
+      this.message});
 
   Map toJson() {
     Map? profile = this.profile != null ? this.profile!.toJson() : null;
@@ -62,8 +64,25 @@ class User {
       'email': email,
       'password': password,
       'password2': password2,
+      'phone': phone,
       'profile': profile,
     };
+  }
+
+  static User? fromJson(dynamic json) {
+    try {
+      var message = json['message'];
+
+      if (message != null) {
+        return User(
+            password: '',
+            password2: '',
+            email: '',
+            profile: null,
+            message: message);
+      }
+    } catch (e) {}
+    return null;
   }
 }
 
@@ -202,14 +221,24 @@ class LocationModel {
 class Authenticate {
   String email = '';
   String password = '';
-  String client_sign = '';
-  String client_info = '';
+  String? client_sign = '';
+  String? client_info = '';
+  String? accessToken;
+  String? refreshToken;
+  String? username;
+  int? expirty;
+  bool? verified;
 
   Authenticate(
       {required this.email,
       required this.password,
       required this.client_sign,
-      required this.client_info});
+      required this.client_info,
+      this.accessToken,
+      this.refreshToken,
+      this.username,
+      this.expirty,
+      this.verified});
 
   Map toJson() => {
         'email': email,
@@ -217,6 +246,36 @@ class Authenticate {
         'client_sign': client_sign,
         'client_info': client_info,
       };
+  static Authenticate? fromJson(dynamic json) {
+    try {
+      var _expirty = json['expiry'];
+      var _refresh_token = json['refresh_token'];
+      var _access_token = json['access_token'];
+      var _verified = json['verified'];
+      var _email = json['email'];
+      var _username = json['username'];
+
+      if (_expirty != null &&
+          _refresh_token != null &&
+          _access_token != null &&
+          _verified != null &&
+          _email != null &&
+          _username != null) {
+        return Authenticate(
+          email: _email,
+          password: '',
+          client_sign: '',
+          client_info: '',
+          accessToken: _access_token,
+          refreshToken: _refresh_token,
+          expirty: _expirty,
+          username: _username,
+          verified: _verified,
+        );
+      }
+    } catch (e) {}
+    return null;
+  }
 }
 
 class RefreshTokenModel {
@@ -241,14 +300,31 @@ class RefreshTokenModel {
 
 class RequestPasswordResetCodeModel {
   String? email = '';
+  String? request_id = '';
+  String? message = '';
 
-  RequestPasswordResetCodeModel({
-    required this.email,
-  });
+  RequestPasswordResetCodeModel(
+      {required this.email, this.message, this.request_id});
 
   Map toJson() => {
         'email': email,
       };
+
+  static RequestPasswordResetCodeModel? fromJson(dynamic json) {
+    try {
+      var request_id = json['request_id'];
+      var message = json['message'];
+
+      if (request_id != null && message != null) {
+        return RequestPasswordResetCodeModel(
+          email: '',
+          request_id: request_id,
+          message: message,
+        );
+      }
+    } catch (e) {}
+    return null;
+  }
 }
 
 class RequestPasswordResetModel {

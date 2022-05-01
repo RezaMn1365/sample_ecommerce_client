@@ -6,12 +6,11 @@ import 'package:flutter_application_1/helpers/storage/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/helpers/navigation.dart' as Navigation;
 import 'package:flutter_application_1/models/user.dart';
+import 'package:flutter_application_1/network/server_request_new.dart';
 import 'package:flutter_application_1/widgets/helpers/svg_provider.dart';
 import 'package:flutter_application_1/widgets/my_text_form_field.dart';
 import 'package:flutter_application_1/widgets/text_span.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_application_1/network/server_requests.dart'
-    as serverRequest;
 
 class PasswordResetPage extends StatefulWidget {
   PasswordResetPage({Key? key}) : super(key: key);
@@ -148,15 +147,26 @@ class _PasswordResetPageState extends State<PasswordResetPage> {
           'Please enter registered Email address');
       return false;
     } else {
-      var passwordResetResponse =
-          await serverRequest.getPasswordResetCodeAPI(context, email);
-      if (passwordResetResponse['success'] == true) {
-        _requestId = passwordResetResponse['payload']['request_id'] as String;
-        MyDialog.show(context, 'Message', 'Email address is valid');
+      var passwordResetResponse = await getPasswordResetCode(email);
+      if (passwordResetResponse.success) {
+        _requestId = passwordResetResponse.data!.request_id as String;
+        MyDialog.show(
+            context, 'Message', '${passwordResetResponse.data!.message}');
         return true;
       } else {
+        MyDialog.show(context, 'Message', 'Email address is not valid');
         return false;
       }
+
+      // var passwordResetResponse =
+      //     await serverRequest.getPasswordResetCodeAPI(context, email);
+      // if (passwordResetResponse['success'] == true) {
+      //   _requestId = passwordResetResponse['payload']['request_id'] as String;
+      //   MyDialog.show(context, 'Message', 'Email address is valid');
+      //   return true;
+      // } else {
+      //   return false;
+      // }
     }
   }
 }

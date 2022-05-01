@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/helpers/storage/storage.dart';
-import 'package:flutter_application_1/network/server_requests.dart';
+import 'package:flutter_application_1/network/server_request_new.dart';
 import 'package:flutter_application_1/helpers/navigation.dart' as Navigation;
 
 import 'login_page.dart';
@@ -84,13 +84,13 @@ class _SplashScreenState extends State<SplashScreen> {
       return false;
     } else {
       if (tokens['expirtyMillis']! < DateTime.now().millisecondsSinceEpoch) {
-        var refreshResponse = await refreshTokenAPI();
+        var refreshResponse = await tryRefreshToken();
         // print(refreshResponse);
-        if (refreshResponse['success'] != true) {
+        if (refreshResponse != true) {
           print('refresh null');
           return false;
         } else {
-          userName = refreshResponse['payload']['username'];
+          // userName = refreshResponse['payload']['username'];
           print('true refresh');
           return true;
         }

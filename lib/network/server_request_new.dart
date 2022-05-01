@@ -19,6 +19,14 @@ Future<String?> _getRefreshToken() async {
   return refreshtoken;
 }
 
+Future<void> _storeTokens(
+    String accessToken, String refreshToken, int expirtyMillis) async {
+  await Storage().storeTokens(
+      accessToken: accessToken,
+      refreshToken: refreshToken,
+      expirtyMillis: expirtyMillis);
+}
+
 Future<String?> _getDeviceName() async {
   var deviceName = await initPlatformState();
   String clientInfo = deviceName['name'];
@@ -62,10 +70,7 @@ Future<bool> tryRefreshToken() async {
       _expirtyMillis =
           DateTime.now().millisecondsSinceEpoch + (_expirtyMillis * 1000);
 
-      await Storage().storeTokens(
-          accessToken: _accessToken,
-          refreshToken: _refreshToken,
-          expirtyMillis: _expirtyMillis);
+      await _storeTokens(_accessToken, _refreshToken, _expirtyMillis);
 
       return true;
     }
@@ -261,12 +266,73 @@ Future<ApiResponse<LoginHistoryModel>> getLoginHistory(
 }
 
 Future<BasicApiResponse> logout() async {
-  final tokens = await Storage().getTokens();
-  String accesstoken = tokens['accessToken']!;
-  Map<String, bool> _error = {"success": false};
-
   var _response = await _post(
       'http://185.88.154.87:4000/auth/users/logout', null,
+      authorized: true, firstTry: true);
+
+  return _response;
+}
+
+Future<ApiResponse<Authenticate>> authenticate(
+    String email, String pass) async {
+  var _request = Authenticate(
+      email: email,
+      password: pass,
+      client_sign: await _getDevicePlatform(),
+      client_info: await _getDeviceName());
+
+  var _response = await _post(
+      'http://185.88.154.87:4000/auth/users/authenticate', _request,
+      authorized: true, firstTry: true);
+
+  var data = Authenticate.fromJson(_response.payload);
+
+  if (_response.success && data != null) {
+    String _accessToken = _response.payload['access_token'];
+    String _refreshToken = _response.payload['refresh_token'];
+    int _expirtyMillis = _response.payload['expiry'];
+    _expirtyMillis =
+        DateTime.now().millisecondsSinceEpoch + (_expirtyMillis * 1000);
+
+    await _storeTokens(_accessToken, _refreshToken, _expirtyMillis);
+  }
+
+  return ApiResponse<Authenticate>(_response, data);
+}
+
+Future<ApiResponse<User>> register(User user) async {
+  var _response = await _post('http://185.88.154.87:4000/users/create', user,
+      authorized: true, firstTry: true);
+
+  var data = User.fromJson(_response.payload);
+
+  return ApiResponse<User>(_response, data);
+}
+
+Future<ApiResponse<RequestPasswordResetCodeModel>> getPasswordResetCode(
+    String email) async {
+  var _request = RequestPasswordResetCodeModel(email: email);
+
+  var _response = await _post(
+      'http://185.88.154.87:4000/users/password/request', _request,
+      authorized: true, firstTry: true);
+
+  var data = RequestPasswordResetCodeModel.fromJson(_response.payload);
+
+  return ApiResponse<RequestPasswordResetCodeModel>(_response, data);
+}
+
+Future<BasicApiResponse> passwordReset(String email, String code,
+    String requestId, String pass, String repeatpass) async {
+  var _request = RequestPasswordResetModel(
+      email: email,
+      code: code,
+      requestId: requestId,
+      password: pass,
+      password2: repeatpass);
+
+  var _response = await _post(
+      'http://185.88.154.87:4000/users/password/reset', _request,
       authorized: true, firstTry: true);
 
   return _response;

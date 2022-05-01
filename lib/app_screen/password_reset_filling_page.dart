@@ -6,12 +6,11 @@ import 'package:flutter_application_1/helpers/storage/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/helpers/navigation.dart' as Navigation;
 import 'package:flutter_application_1/models/user.dart';
+import 'package:flutter_application_1/network/server_request_new.dart';
 import 'package:flutter_application_1/widgets/helpers/svg_provider.dart';
 import 'package:flutter_application_1/widgets/my_text_form_field.dart';
 import 'package:flutter_application_1/widgets/text_span.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_application_1/network/server_requests.dart'
-    as serverRequest;
 
 class PasswordReseFillingtPage extends StatefulWidget {
   String requestId = '';
@@ -176,22 +175,38 @@ class _PasswordReseFillingtPageState extends State<PasswordReseFillingtPage> {
       MyDialog.show(context, 'Password Reset Failed', 'Please fill all fields');
       return false;
     } else {
-      var passwordResetResponse = await serverRequest.passwordResetAPI(
-          context,
+      var passwordResetResponse = await passwordReset(
           widget.email,
           codeController.text,
           widget.requestId,
           passController.text,
           repeatpassController.text);
-      if (passwordResetResponse['success'] == true) {
-        MyDialog.showWithDelay(
-            context, 'Message', 'Password reset successfully');
+      if (passwordResetResponse.success) {
+        MyDialog.show(
+            context, 'Message', '${passwordResetResponse.payload['message']}');
         return true;
       } else {
         MyDialog.show(
             context, 'Message', 'Password Reset Failed, Please retry');
         return false;
       }
+
+      // var passwordResetResponse = await serverRequest.passwordResetAPI(
+      //     context,
+      //     widget.email,
+      //     codeController.text,
+      //     widget.requestId,
+      //     passController.text,
+      //     repeatpassController.text);
+      // if (passwordResetResponse['success'] == true) {
+      //   MyDialog.showWithDelay(
+      //       context, 'Message', 'Password reset successfully');
+      //   return true;
+      // } else {
+      //   MyDialog.show(
+      //       context, 'Message', 'Password Reset Failed, Please retry');
+      //   return false;
+      // }
     }
   }
 }

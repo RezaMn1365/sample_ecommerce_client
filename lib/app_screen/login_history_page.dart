@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/network/server_request_new.dart';
-import 'package:flutter_application_1/network/server_requests.dart'
-    as serverRequest;
+
 // import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shimmer/shimmer.dart';
 

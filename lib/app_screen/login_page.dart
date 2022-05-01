@@ -7,11 +7,10 @@ import 'package:flutter_application_1/helpers/storage/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/helpers/navigation.dart' as Navigation;
 import 'package:flutter_application_1/models/user.dart';
+import 'package:flutter_application_1/network/server_request_new.dart';
 import 'package:flutter_application_1/widgets/helpers/svg_provider.dart';
 import 'package:flutter_application_1/widgets/my_text_form_field.dart';
 import 'package:flutter_application_1/widgets/text_span.dart';
-import 'package:flutter_application_1/network/server_requests.dart'
-    as serverRequest;
 
 class LoginPage extends StatefulWidget {
   String userName = '';
@@ -131,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
                                     await Future.delayed(
                                         const Duration(seconds: 1));
                                     Navigation.gotoHomePage(context,
-                                        name: usernameController.text,
+                                        // name: usernameController.text,
                                         replace: true);
                                   } else {
                                     setState(() {
@@ -199,31 +198,13 @@ class _LoginPageState extends State<LoginPage> {
           context, 'Login Failed', 'Please fill all required fields.');
       return false;
     } else {
-      var authenticateResponse = await serverRequest.authenticateAPI(
-        context,
-        username,
-        password,
-      );
+      var authenticateResponse = await authenticate(username, password);
 
-      if (authenticateResponse['success'] == true &&
-          authenticateResponse['payload']['verified'] == true) {
-        print(authenticateResponse);
-        int _expiryTime = authenticateResponse['payload']['expiry'];
-        int _expirtyMillis =
-            DateTime.now().millisecondsSinceEpoch + (_expiryTime * 100);
-        String _accessToken =
-            authenticateResponse['payload']['access_token'] as String;
-        String _refreshToken =
-            authenticateResponse['payload']['refresh_token'] as String;
-        // await Storage().storeUser(User(password: 'password', password2: 'password2', email: username, profile: 'profile'))
-        await Storage().storeTokens(
-            accessToken: _accessToken,
-            refreshToken: _refreshToken,
-            expirtyMillis: _expirtyMillis);
-
+      if (authenticateResponse.success &&
+          authenticateResponse.data!.verified == true) {
         return true;
       }
-      if (authenticateResponse['success'] == false) {
+      if (authenticateResponse.success == false) {
         MyDialog.show(context, 'Login Failed', 'Invalid Username or Password');
 
         // usernameController.text = '';
@@ -234,6 +215,42 @@ class _LoginPageState extends State<LoginPage> {
             context, 'Login Failed', 'Please check your network connection');
       }
       return false;
+
+      // var authenticateResponse = await serverRequest.authenticateAPI(
+      //   context,
+      //   username,
+      //   password,
+      // );
+
+      // if (authenticateResponse['success'] == true &&
+      //     authenticateResponse['payload']['verified'] == true) {
+      //   print(authenticateResponse);
+      //   int _expiryTime = authenticateResponse['payload']['expiry'];
+      //   int _expirtyMillis =
+      //       DateTime.now().millisecondsSinceEpoch + (_expiryTime * 100);
+      //   String _accessToken =
+      //       authenticateResponse['payload']['access_token'] as String;
+      //   String _refreshToken =
+      //       authenticateResponse['payload']['refresh_token'] as String;
+      //   // await Storage().storeUser(User(password: 'password', password2: 'password2', email: username, profile: 'profile'))
+      //   await Storage().storeTokens(
+      //       accessToken: _accessToken,
+      //       refreshToken: _refreshToken,
+      //       expirtyMillis: _expirtyMillis);
+
+      //   return true;
+      // }
+      // if (authenticateResponse['success'] == false) {
+      //   MyDialog.show(context, 'Login Failed', 'Invalid Username or Password');
+
+      //   // usernameController.text = '';
+      //   // passController.text = '';
+      //   return false;
+      // } else {
+      //   MyDialog.show(
+      //       context, 'Login Failed', 'Please check your network connection');
+      // }
+      // return false;
     }
   }
 

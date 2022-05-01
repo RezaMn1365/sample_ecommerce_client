@@ -3,8 +3,6 @@ import 'package:flutter_application_1/helpers/my_dialog.dart';
 import 'package:flutter_application_1/helpers/storage/icon_builder.dart';
 import 'package:flutter_application_1/network/server_request_new.dart';
 import 'package:flutter_application_1/widgets/my_text_form_field.dart';
-import 'package:flutter_application_1/network/server_requests.dart'
-    as serverRequest;
 
 class PasswordUpdatePage extends StatefulWidget {
   String requestId = '';

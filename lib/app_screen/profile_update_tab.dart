@@ -8,8 +8,7 @@ import 'package:flutter_application_1/models/user.dart';
 import 'package:flutter_application_1/network/server_request_new.dart';
 import 'package:flutter_application_1/widgets/my_spacer.dart';
 import 'package:flutter_application_1/widgets/my_text_form_field.dart';
-import 'package:flutter_application_1/network/server_requests.dart'
-    as serverRequest;
+
 import 'package:flutter_application_1/widgets/social_media_item.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shimmer/shimmer.dart';

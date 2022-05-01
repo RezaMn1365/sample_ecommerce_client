@@ -3,6 +3,7 @@ import 'package:flutter_application_1/app_screen/map_snapshot_provider.dart';
 import 'package:flutter_application_1/helpers/my_dialog.dart';
 import 'package:flutter_application_1/helpers/storage/icon_builder.dart';
 import 'package:flutter_application_1/models/user.dart';
+import 'package:flutter_application_1/network/server_request_new.dart';
 import 'package:flutter_application_1/widgets/my_spacer.dart';
 import 'package:flutter_application_1/widgets/my_text_form_field.dart';
 import 'package:flutter_application_1/widgets/social_media_item.dart';
@@ -11,8 +12,6 @@ import 'package:flutter_application_1/widgets/text_span.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/helpers/navigation.dart' as Navigation;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:flutter_application_1/network/server_requests.dart'
-    as serverRequest;
 
 class RegisterPage extends StatefulWidget {
   RegisterPage({Key? key}) : super(key: key);
@@ -292,8 +291,8 @@ class _RegisterPageState extends State<RegisterPage> {
       password = widget.passController.text;
       password2 = widget.repeatpassController.text;
       email = widget.emailController.text;
-
       phone = widget.phoneController.text;
+
       national_id = widget.nationalidontroller.text;
       country = widget.countryController.text;
       province = widget.provinceController.text;
@@ -327,15 +326,21 @@ class _RegisterPageState extends State<RegisterPage> {
           profile: profile,
           phone: phone);
 
-      Map<String, dynamic> registerResponse =
-          await serverRequest.registerAPI(context, newUser);
-      if (registerResponse['success'] == true) {
+      var registerResponse = await register(newUser);
+      if (registerResponse.success == true) {
         await MyDialog.showWithDelay(
-            context, 'Message', '${registerResponse['payload']['message']}');
+            context, 'Message', '${registerResponse.data!.message}');
         registering = false;
+
+        // Map<String, dynamic> registerResponse =
+        //     await serverRequest.registerAPI(context, newUser);
+        // if (registerResponse['success'] == true) {
+        //   await MyDialog.showWithDelay(
+        //       context, 'Message', '${registerResponse['payload']['message']}');
+        //   registering = false;
         return true;
       }
-      if (registerResponse['success'] == false) {
+      if (registerResponse.success == false) {
         await MyDialog.showWithDelay(context, 'Network Problem',
             'Please check your internet connection');
         registering = false;
