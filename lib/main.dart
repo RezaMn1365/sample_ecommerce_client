@@ -35,7 +35,7 @@ void main() async {
 
         // MyTheme.defaultTheme,
         ThemeData(
-      colorScheme: ColorScheme(
+      colorScheme: const ColorScheme(
           primary: Colors.purple,
           primaryVariant: Colors.deepPurple,
           secondary: Colors.green,
