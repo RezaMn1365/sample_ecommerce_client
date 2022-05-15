@@ -9,6 +9,7 @@ import 'package:flutter_application_1/app_screen/password_reset_filling_page.dar
 import 'package:flutter_application_1/app_screen/password_reset_page.dart';
 import 'package:flutter_application_1/app_screen/register_page.dart';
 import 'package:flutter_application_1/models/user.dart';
+import 'package:flutter_application_1/main.dart';
 
 void _goToPage(BuildContext context, bool replace, Widget page) {
   if (replace) {
@@ -56,11 +57,13 @@ void gotoHomePage(BuildContext context,
   _goToPage(context, replace, HomePage(context, uname: name));
 }
 
-void gotoLoginPage(BuildContext context,
-    {bool replace = true,
-    var pageColor,
-    String userName = '',
-    String passWord = ''}) {
+void gotoLoginPage(
+  BuildContext context, {
+  bool replace = true,
+  var pageColor,
+  String userName = '',
+  String passWord = '',
+}) {
   _goToPage(
       context,
       replace,
@@ -104,6 +107,7 @@ void gotoAccountSettingsPage(
       context,
       replace,
       AccountSettingsPage(
+
           // user: user,
           ));
 }

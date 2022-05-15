@@ -1,22 +1,22 @@
 import 'dart:convert';
 
-import 'package:flutter_application_1/helpers/device_platform_recognition.dart';
 import 'package:flutter_application_1/helpers/my_dialog.dart';
 import 'package:flutter_application_1/helpers/storage/icon_builder.dart';
-import 'package:flutter_application_1/helpers/storage/storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/helpers/navigation.dart' as Navigation;
-import 'package:flutter_application_1/models/user.dart';
 import 'package:flutter_application_1/network/server_request_new.dart';
-import 'package:flutter_application_1/widgets/helpers/svg_provider.dart';
 import 'package:flutter_application_1/widgets/my_text_form_field.dart';
 import 'package:flutter_application_1/widgets/text_span.dart';
 
 class LoginPage extends StatefulWidget {
   String userName = '';
   String passWord = '';
-  LoginPage({Key? key, required this.userName, required this.passWord})
-      : super(key: key);
+
+  LoginPage({
+    Key? key,
+    required this.userName,
+    required this.passWord,
+  }) : super(key: key);
 
   @override
   _LoginPageState createState() => _LoginPageState();

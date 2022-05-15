@@ -184,8 +184,7 @@ class _ActiveSessionPageState extends State<ActiveSessionPage> {
   Future<bool> _terminatRequest(String _id) async {
     var _response = await terminateActiveSession(_id);
     if (_response.success) {
-      await MyDialog.showWithDelay(
-          context, 'Message', 'Session terminated successfully.');
+      MyDialog.show(context, 'Message', 'Session terminated successfully.');
       return true;
     } else {
       await MyDialog.showWithDelay(context, 'Alert', 'Session not terminated.');

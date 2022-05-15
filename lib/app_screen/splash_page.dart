@@ -2,15 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/helpers/storage/storage.dart';
-import 'package:flutter_application_1/models/notifier.dart';
 import 'package:flutter_application_1/network/server_request_new.dart';
 import 'package:flutter_application_1/helpers/navigation.dart' as Navigation;
-import 'package:provider/provider.dart';
 
 import 'login_page.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -67,15 +67,17 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => UnautorizeNevigator(),
-      builder: (context, child) {
-        return Container(
-          color: Colors.black,
-          child: Image.asset('images/MaxPower.png'),
-        );
-      },
+    return
+        // ChangeNotifierProvider(
+        //   create: (context) => UnautorizeNevigator(),
+        //   builder: (context, child) {
+        //     return
+        Container(
+      color: Colors.black,
+      child: Image.asset('images/MaxPower.png'),
     );
+    //   },
+    // );
   }
 
   Future<bool> _checkLastTokens() async {
@@ -104,7 +106,7 @@ class _SplashScreenState extends State<SplashScreen> {
       } else {
         // var user = await Storage().getUser();
         // userName = user!.profile!.first_name;
-        print('true');
+        print('true...');
         return true;
       }
     }

@@ -4,18 +4,21 @@ import 'package:flutter_application_1/helpers/device_platform_recognition.dart';
 import 'package:flutter_application_1/helpers/storage/storage.dart';
 import 'package:flutter_application_1/models/user.dart';
 import 'package:flutter_application_1/network/basic_api_response.dart';
+import 'package:flutter_application_1/router/locator.dart';
+import 'package:flutter_application_1/router/navigation_service.dart';
+import 'package:flutter_application_1/router/route_paths.dart' as routes;
 
 import 'api_response.dart';
 
 Future<String?> _getAccessToken() async {
   final tokens = await Storage().getTokens();
-  String accessToken = tokens['accessToken']!;
+  String? accessToken = tokens['accessToken'];
   return accessToken;
 }
 
 Future<String?> _getRefreshToken() async {
   final tokens = await Storage().getTokens();
-  String refreshtoken = tokens['refreshToken']!;
+  String? refreshtoken = tokens['refreshToken'];
   return refreshtoken;
 }
 
@@ -27,15 +30,19 @@ Future<void> _storeTokens(
       expirtyMillis: expirtyMillis);
 }
 
+Future<void> _clearTokens() async {
+  await Storage().clearUser();
+}
+
 Future<String?> _getDeviceName() async {
   var deviceName = await initPlatformState();
-  String clientInfo = deviceName['name'];
+  String? clientInfo = deviceName['name'];
   return clientInfo;
 }
 
 Future<String?> _getDevicePlatform() async {
   var devicePlatform = await initPlatformState();
-  String clientSign = devicePlatform['platform'];
+  String? clientSign = devicePlatform['platform'];
   return clientSign;
 }
 
@@ -176,6 +183,10 @@ Future<BasicApiResponse> _handleExceptions(DioError e, String url, dynamic data,
           return await _get(url, authorized: authorized, firstTry: false);
         }
       } else {
+        _clearTokens();
+        final NavigationService _navigationService =
+            locator<NavigationService>();
+        _navigationService.navigateTo(routes.LoginPage);
         //notify to go to login page
         // Shared().notifyLoginRequired();
         return BasicApiResponse.failed('Unauthorized. Login required.');

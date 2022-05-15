@@ -16,9 +16,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shimmer/shimmer.dart';
 
 class AccountSettingsPage extends StatelessWidget {
-  AccountSettingsPage({
-    Key? key,
-  }) : super(key: key);
+  AccountSettingsPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

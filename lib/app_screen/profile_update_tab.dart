@@ -19,9 +19,7 @@ class ProfileUpdatePage extends StatefulWidget {
   String requestId = '';
   String email = '';
   // User user;
-  ProfileUpdatePage({
-    Key? key,
-  }) : super(key: key);
+  ProfileUpdatePage({Key? key}) : super(key: key);
 
   @override
   _ProfileUpdatePageState createState() => _ProfileUpdatePageState();

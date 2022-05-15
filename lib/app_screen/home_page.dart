@@ -9,7 +9,6 @@ class HomePage extends StatefulWidget {
   String passWord = '';
   String email = '';
   String name = '';
-
   String uname;
 
   HomePage(BuildContext context, {Key? key, required this.uname})

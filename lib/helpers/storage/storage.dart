@@ -96,121 +96,121 @@ class Storage {
     // _storage = SharedPreferenceStorage();
   }
 
-  Future<User?> getUser() async {
-    String? firstname = await _storage.getString(KEY_FIRSTNAME);
-    String? lastname = await _storage.getString(KEY_LASTNAME);
-    String? password = await _storage.getString(KEY_PASSWORD);
-    String? password2 = await _storage.getString(KEY_PASSWORD2);
-    String? email = await _storage.getString(KEY_EMAIL);
+  // Future<User?> getUser() async {
+  //   String? firstname = await _storage.getString(KEY_FIRSTNAME);
+  //   String? lastname = await _storage.getString(KEY_LASTNAME);
+  //   String? password = await _storage.getString(KEY_PASSWORD);
+  //   String? password2 = await _storage.getString(KEY_PASSWORD2);
+  //   String? email = await _storage.getString(KEY_EMAIL);
 
-    String? phone = await _storage.getString(KEY_PHONE);
-    String? national_id = await _storage.getString(KEY_NATIONALID);
-    String? country = await _storage.getString(KEY_COUNTRY);
-    String? province = await _storage.getString(KEY_PROVINCE);
-    String? city = await _storage.getString(KEY_CITY);
-    String? address = await _storage.getString(KEY_ADDRESS);
-    String? zip = await _storage.getString(KEY_ZIP);
+  //   String? phone = await _storage.getString(KEY_PHONE);
+  //   String? national_id = await _storage.getString(KEY_NATIONALID);
+  //   String? country = await _storage.getString(KEY_COUNTRY);
+  //   String? province = await _storage.getString(KEY_PROVINCE);
+  //   String? city = await _storage.getString(KEY_CITY);
+  //   String? address = await _storage.getString(KEY_ADDRESS);
+  //   String? zip = await _storage.getString(KEY_ZIP);
 
-    // Map<String, dynamic> location = {
-    //   'type': 'point',
-    //   'coordinates': [
-    //   ]
-    // };
+  //   // Map<String, dynamic> location = {
+  //   //   'type': 'point',
+  //   //   'coordinates': [
+  //   //   ]
+  //   // };
 
-    // Map<String, String?> social_media = {
-    var twitt = await _storage.getString(USER_TWITTER);
-    var face = await _storage.getString(USER_TWITTER);
-    var inst = await _storage.getString(USER_TWITTER);
-    var what = await _storage.getString(USER_TWITTER);
-    // };
-    var social_media = SocialMediaModel(
-        whatsapp: what, instagram: inst, facebook: face, twitter: twitt);
+  //   // Map<String, String?> social_media = {
+  //   var twitt = await _storage.getString(USER_TWITTER);
+  //   var face = await _storage.getString(USER_TWITTER);
+  //   var inst = await _storage.getString(USER_TWITTER);
+  //   var what = await _storage.getString(USER_TWITTER);
+  //   // };
+  //   var social_media = SocialMediaModel(
+  //       whatsapp: what, instagram: inst, facebook: face, twitter: twitt);
 
-    if (firstname != null &&
-        lastname != null &&
-        password != null &&
-        password2 != null &&
-        email != null) {
-      return User(
-        password: password,
-        password2: password2,
-        email: email,
-        phone: phone,
-        profile: Profile(
-            first_name: firstname,
-            last_name: lastname,
-            national_id: national_id,
-            country: country,
-            province: province,
-            city: city,
-            address: address,
-            zip: zip,
-            // location: location,
-            social_media: social_media),
-      );
-    } else {
-      return User(
-          password: '',
-          password2: '',
-          email: '',
-          phone: '',
-          profile: Profile(
-            first_name: '',
-            last_name: '',
-            national_id: '',
-            country: '',
-            province: '',
-            city: '',
-            address: '',
-            zip: '',
-            // location: ,
-            // social_media: ,
-          ));
-    }
-  }
+  //   if (firstname != null &&
+  //       lastname != null &&
+  //       password != null &&
+  //       password2 != null &&
+  //       email != null) {
+  //     return User(
+  //       password: password,
+  //       password2: password2,
+  //       email: email,
+  //       phone: phone,
+  //       profile: Profile(
+  //           first_name: firstname,
+  //           last_name: lastname,
+  //           national_id: national_id,
+  //           country: country,
+  //           province: province,
+  //           city: city,
+  //           address: address,
+  //           zip: zip,
+  //           // location: location,
+  //           social_media: social_media),
+  //     );
+  //   } else {
+  //     return User(
+  //         password: '',
+  //         password2: '',
+  //         email: '',
+  //         phone: '',
+  //         profile: Profile(
+  //           first_name: '',
+  //           last_name: '',
+  //           national_id: '',
+  //           country: '',
+  //           province: '',
+  //           city: '',
+  //           address: '',
+  //           zip: '',
+  //           // location: ,
+  //           // social_media: ,
+  //         ));
+  //   }
+  // }
 
-  Future storeUser(User user) async {
-    await _storage.putString(KEY_FIRSTNAME, user.profile!.first_name);
-    await _storage.putString(KEY_LASTNAME, user.profile!.last_name);
-    await _storage.putString(KEY_PASSWORD, user.password);
-    await _storage.putString(KEY_PASSWORD2, user.password2);
-    await _storage.putString(KEY_EMAIL, user.email);
+  // Future storeUser(User user) async {
+  //   await _storage.putString(KEY_FIRSTNAME, user.profile!.first_name);
+  //   await _storage.putString(KEY_LASTNAME, user.profile!.last_name);
+  //   await _storage.putString(KEY_PASSWORD, user.password);
+  //   await _storage.putString(KEY_PASSWORD2, user.password2);
+  //   await _storage.putString(KEY_EMAIL, user.email);
 
-    if (user.phone != null) {
-      await _storage.putString(KEY_PHONE, user.phone!);
-    }
-    if (user.profile!.national_id != null) {
-      await _storage.putString(KEY_NATIONALID, user.profile!.national_id!);
-    }
-    if (user.profile!.country != null) {
-      await _storage.putString(KEY_COUNTRY, user.profile!.country!);
-    }
-    if (user.profile!.province != null) {
-      await _storage.putString(KEY_PROVINCE, user.profile!.province!);
-    }
-    if (user.profile!.city != null) {
-      await _storage.putString(KEY_CITY, user.profile!.city!);
-    }
-    if (user.profile!.address != null) {
-      await _storage.putString(KEY_ADDRESS, user.profile!.address!);
-    }
-    if (user.profile!.zip != null) {
-      await _storage.putString(KEY_ZIP, user.profile!.zip!);
-    }
-    // if (user.profile!.location != null) {
-    //   _storage.putString(KEY_LOCATION, user.profile!.location!);
-    // }
-    if (user.profile!.social_media != null) {
-      await _storage.putString(
-          USER_TWITTER, user.profile!.social_media!.twitter!);
-      await _storage.putString(
-          USER_FACEBOOK, user.profile!.social_media!.facebook!);
-      await _storage.putString(
-          USER_INSTAGRAM, user.profile!.social_media!.instagram!);
-      await _storage.putString(
-          USER_WHATSAPP, user.profile!.social_media!.whatsapp!);
-    }
-  }
+  //   if (user.phone != null) {
+  //     await _storage.putString(KEY_PHONE, user.phone!);
+  //   }
+  //   if (user.profile!.national_id != null) {
+  //     await _storage.putString(KEY_NATIONALID, user.profile!.national_id!);
+  //   }
+  //   if (user.profile!.country != null) {
+  //     await _storage.putString(KEY_COUNTRY, user.profile!.country!);
+  //   }
+  //   if (user.profile!.province != null) {
+  //     await _storage.putString(KEY_PROVINCE, user.profile!.province!);
+  //   }
+  //   if (user.profile!.city != null) {
+  //     await _storage.putString(KEY_CITY, user.profile!.city!);
+  //   }
+  //   if (user.profile!.address != null) {
+  //     await _storage.putString(KEY_ADDRESS, user.profile!.address!);
+  //   }
+  //   if (user.profile!.zip != null) {
+  //     await _storage.putString(KEY_ZIP, user.profile!.zip!);
+  //   }
+  //   // if (user.profile!.location != null) {
+  //   //   _storage.putString(KEY_LOCATION, user.profile!.location!);
+  //   // }
+  //   if (user.profile!.social_media != null) {
+  //     await _storage.putString(
+  //         USER_TWITTER, user.profile!.social_media!.twitter!);
+  //     await _storage.putString(
+  //         USER_FACEBOOK, user.profile!.social_media!.facebook!);
+  //     await _storage.putString(
+  //         USER_INSTAGRAM, user.profile!.social_media!.instagram!);
+  //     await _storage.putString(
+  //         USER_WHATSAPP, user.profile!.social_media!.whatsapp!);
+  //   }
+  // }
 
   Future storeTokens(
       {required String accessToken,
@@ -287,9 +287,9 @@ class Storage {
     //     encryptionCipher: HiveAesCipher(_encryptionKey1));
 
     final _encryptedBox = Hive.box(KEY_HIVE_SECURE_TOKEN_BOX);
-    String? accessToken = _encryptedBox.get(KEY_ACCESSTOKENT);
-    String? refreshToken = _encryptedBox.get(KEY_REFERESHTOKENT);
-    int? expirtyMillis = _encryptedBox.get(KEY_EXPIRTY_MILLIS);
+    String? accessToken = await _encryptedBox.get(KEY_ACCESSTOKENT);
+    String? refreshToken = await _encryptedBox.get(KEY_REFERESHTOKENT);
+    int? expirtyMillis = await _encryptedBox.get(KEY_EXPIRTY_MILLIS);
     // _encryptedBox1.close();
     // print(accessToken);
     // print(refreshToken);
@@ -310,6 +310,8 @@ class Storage {
   }
 
   Future<void> clearUser() async {
-    await _storage.clear();
+    final _encryptedBox = Hive.box(KEY_HIVE_SECURE_TOKEN_BOX);
+    await _encryptedBox.clear();
+    // await _storage.clear();
   }
 }

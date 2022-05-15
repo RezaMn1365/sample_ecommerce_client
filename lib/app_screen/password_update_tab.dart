@@ -8,9 +8,7 @@ class PasswordUpdatePage extends StatefulWidget {
   String requestId = '';
   String email = '';
   // User user;
-  PasswordUpdatePage({
-    Key? key,
-  }) : super(key: key);
+  PasswordUpdatePage({Key? key}) : super(key: key);
 
   @override
   _PasswordUpdatePageState createState() => _PasswordUpdatePageState();
