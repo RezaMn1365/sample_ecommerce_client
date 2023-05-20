@@ -33,7 +33,7 @@ class MyTheme {
 
       scaffoldBackgroundColor: Background,
       cardColor: Background,
-      textSelectionColor: primaryLightColor,
+      // textSelectionColor: primaryLightColor,
       backgroundColor: Background,
 
       // textTheme: base.textTheme.copyWith(
